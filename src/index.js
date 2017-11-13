@@ -119,7 +119,11 @@ class Game extends React.Component {
         let status;
         if (winner) {
           status = 'Winner: ' + winner;
-        } else {
+        }
+        else if (this.state.stepNumber > 8) {
+            status = 'Cat\'s game!';
+        }
+        else {
           status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
         }
 
@@ -133,7 +137,7 @@ class Game extends React.Component {
                 </div>
                 <div className="game-info">
                     <div>{status}</div>
-                    <ol>{moves}</ol>
+                    <ul>{moves}</ul>
                 </div>
             </div>
         );
