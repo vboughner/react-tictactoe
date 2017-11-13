@@ -2,19 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-// every possible 3 squares a player can have that result in a win
-const WINNING_GAMES_LINES = [
-  [0, 1, 2],
-  [3, 4, 5],
-  [6, 7, 8],
-  [0, 3, 6],
-  [1, 4, 7],
-  [2, 5, 8],
-  [0, 4, 8],
-  [2, 4, 6],
-];
-
-
 function Square(props) {
     let classNames = 'square';
     if (props.winner) {
@@ -70,6 +57,20 @@ class Board extends React.Component {
 class Game extends React.Component {
     constructor(props) {
         super(props);
+
+        // every possible 3 squares a player can have that result in a win,
+        // this would normally be a class static field, but these aren't available in ES6
+        this.winning_game_lines = [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            [0, 4, 8],
+            [2, 4, 6],
+        ];
+
         const initialSquares = Array(9).fill(null);
         this.state = {
             history: [{
@@ -84,8 +85,8 @@ class Game extends React.Component {
     }
 
     calculateWinner(squares) {
-      for (let i = 0; i < WINNING_GAMES_LINES.length; i++) {
-        const [a, b, c] = WINNING_GAMES_LINES[i];
+      for (let i = 0; i < this.winning_game_lines.length; i++) {
+        const [a, b, c] = this.winning_game_lines[i];
         if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
           return squares[a];
         }
@@ -95,8 +96,8 @@ class Game extends React.Component {
 
     calculateSquareWinners(squares) {
         let retval = Array(9).fill(false);
-        for (let i = 0; i < WINNING_GAMES_LINES.length; i++) {
-          const [a, b, c] = WINNING_GAMES_LINES[i];
+        for (let i = 0; i < this.winning_game_lines.length; i++) {
+          const [a, b, c] = this.winning_game_lines[i];
           if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
               retval[a] = true;
               retval[b] = true;
