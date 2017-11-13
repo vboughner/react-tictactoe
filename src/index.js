@@ -108,18 +108,20 @@ class Game extends React.Component {
         const current = history[this.state.stepNumber];
         const winner = this.calculateWinner(current.squares);
 
-        const moves = history.map((step, move, ha) => {
-            const desc = move ?
-                'Go to move #' + move :
+        const steps = history.map((value, step, ha) => {
+            const desc = step ?
+                'Go to move #' + step :
                 'Go to game start';
 
-            const colrow = move ?
-                '(' + ha[move].lastColumnPicked + ',' + ha[move].lastRowPicked + ')' :
+            const descClassName = step === this.state.stepNumber ? 'step-selected' : '';
+
+            const colrow = step ?
+                '(' + ha[step].lastColumnPicked + ',' + ha[step].lastRowPicked + ')' :
                 '';
 
             return (
-                <li key={move}>
-                    <button onClick={() => this.jumpTo(move)}>{desc} {colrow}</button>
+                <li key={step}>
+                    <button onClick={() => this.jumpTo(step)}><span className={descClassName}>{desc}</span> {colrow}</button>
                 </li>
             );
         });
@@ -145,7 +147,7 @@ class Game extends React.Component {
                 </div>
                 <div className="game-info">
                     <div>{status}</div>
-                    <ul>{moves}</ul>
+                    <ul>{steps}</ul>
                 </div>
             </div>
         );
